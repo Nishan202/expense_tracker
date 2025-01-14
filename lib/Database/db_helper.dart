@@ -11,6 +11,7 @@ class DBHelper {
   static const String COLUMN_EXPENSE_TITLE = 'expense_title';
   static const String COLUMN_EXPENSE_AMOUNT = 'expense_amount';
   static const String COLUMN_EXPENSE_DATE = 'expense_date';
+  static const String COLUMN_EXPENSE_CATEGORY = 'expense_category';
 
 // to privatize the constructor
   DBHelper._();
@@ -38,7 +39,7 @@ class DBHelper {
     String dbPath = join(appDir.path, "mainDB.db");
     return await openDatabase(dbPath,version: 1, onCreate: (db , version){
       db.execute(
-        'CREATE TABLE $EXPENSE_TABLE ($COLUMN_EXPENSE_ID INTEGER PRIMARY KEY AUTOINCREMENT, $COLUMN_EXPENSE_TITLE TEXT, $COLUMN_EXPENSE_AMOUNT REAL, $COLUMN_EXPENSE_DATE TEXT)'
+        'CREATE TABLE $EXPENSE_TABLE ($COLUMN_EXPENSE_ID INTEGER PRIMARY KEY AUTOINCREMENT, $COLUMN_EXPENSE_TITLE TEXT, $COLUMN_EXPENSE_AMOUNT REAL, $COLUMN_EXPENSE_DATE TEXT, $COLUMN_EXPENSE_CATEGORY)'
       );
     });
   }

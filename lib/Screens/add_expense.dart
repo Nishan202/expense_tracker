@@ -1,7 +1,15 @@
+import 'package:expense_tracker/Database/data_model.dart';
+import 'package:expense_tracker/Database/db_provider.dart';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class AddExpense extends StatefulWidget {
   const AddExpense({super.key});
+
+  // final void Function(Expense expense) onAddExpense;
+  // const AddExpense({super.key, required this.onAddExpense});
 
   @override
   State<AddExpense> createState() => _AddExpenseState();
@@ -24,13 +32,12 @@ class _AddExpenseState extends State<AddExpense> {
       lastDate: now,
     );
     setState(() {
-      _selectedDate = pickedDate;
+      _selectedDate = DateTime.tryParse(pickedDate!.toIso8601String());
     });
   }
 
   void _submitExpenseData() {
-    final enteredAmount = double.tryParse(_amountController
-        .text); // tryParse('Hello') => null, tryParse('1.12') => 1.12
+    final enteredAmount = double.tryParse(_amountController.text); // tryParse('Hello') => null, tryParse('1.12') => 1.12
     final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
@@ -54,14 +61,18 @@ class _AddExpenseState extends State<AddExpense> {
       return;
     }
 
-    widget.onAddExpense(
-      Expense(
-        title: _titleController.text,
-        amount: enteredAmount,
-        date: _selectedDate!,
-        category: _selectedCategory,
-      ),
-    );
+    // widget.onAddExpense(
+    //   Expense(
+    //     title: _titleController.text,
+    //     amount: enteredAmount,
+    //     date: _selectedDate!,
+    //     category: _selectedCategory,
+    //   ),
+    // );
+    // Navigator.pop(context);
+
+    context.read<DbProvider>().addData(aData: DataModel(title: _titleController.text, amount: enteredAmount, date: _selectedDate!, category: _selectedCategory));
+
     Navigator.pop(context);
   }
 
@@ -107,7 +118,8 @@ class _AddExpenseState extends State<AddExpense> {
                     Text(
                       _selectedDate == null
                           ? 'No date selected'
-                          : formatter.format(_selectedDate!),
+                          // : formatter.format(_selectedDate!),
+                          : DateFormat.yM().format(_selectedDate!)
                     ),
                     IconButton(
                       onPressed: _presentDatePicker,

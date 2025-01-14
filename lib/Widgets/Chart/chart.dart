@@ -1,17 +1,19 @@
-import 'package:expense_tracker/Chart/chart_bar.dart';
+
+import 'package:expense_tracker/Widgets/Chart/chart_bar.dart';
+import 'package:expense_tracker/Model/expense.dart';
 import 'package:flutter/material.dart';
 
 class Chart extends StatelessWidget {
-  const Chart({super.key, required this.expenses});
+  const Chart({super.key, required this.expense});
 
-  final List<Expense> expenses;
+  final List<Expense> expense;
 
   List<ExpenseBucket> get buckets {
     return [
-      ExpenseBucket.forCategory(expenses, Category.food),
-      ExpenseBucket.forCategory(expenses, Category.leisure),
-      ExpenseBucket.forCategory(expenses, Category.travel),
-      ExpenseBucket.forCategory(expenses, Category.work),
+      ExpenseBucket.forCategory(expense, Category.food),
+      ExpenseBucket.forCategory(expense, Category.leisure),
+      ExpenseBucket.forCategory(expense, Category.travel),
+      ExpenseBucket.forCategory(expense, Category.work),
     ];
   }
 
@@ -83,8 +85,7 @@ class Chart extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
-                .toList(),
+                ).toList(),
           )
         ],
       ),

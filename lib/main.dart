@@ -1,17 +1,23 @@
-import 'package:expense_tracker/Screens/expenses_screen.dart';
+import 'package:expense_tracker/Database/db_helper.dart';
+import 'package:expense_tracker/Database/db_provider.dart';
+import 'package:expense_tracker/Screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 var kColorScheme = ColorScheme.fromSeed(
-  seedColor: const Color.fromARGB(255, 96, 59, 181),
+  seedColor: Colors.cyan.shade300,
 );
 
 var kDarkColorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
-  seedColor: const Color.fromARGB(255, 5, 99, 125),
+  seedColor: Colors.cyan.shade700,
 );
 
 void main() {
-  runApp(const MyApp());
+  // runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (constext) => DbProvider(dbHelper: DBHelper.getInstense()))
+  ], child: const MyApp(),),);
 }
 
 class MyApp extends StatelessWidget {
@@ -64,7 +70,7 @@ class MyApp extends StatelessWidget {
             ),
       ),
       // themeMode: ThemeMode.system, // default
-      home: const ExpensesScreen(),
+      home: const HomeScreen(),
     );
   }
 }
